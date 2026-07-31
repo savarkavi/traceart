@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ClerkProvider } from "@clerk/nextjs";
+import ConvexClientProvider from "@/components/providers/convex-client-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -39,7 +41,7 @@ export default function RootLayout({
       )}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -47,7 +49,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <ClerkProvider>
+            <ConvexClientProvider>{children}</ConvexClientProvider>
+          </ClerkProvider>
         </ThemeProvider>
       </body>
     </html>
