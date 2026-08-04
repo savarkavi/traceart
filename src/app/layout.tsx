@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import ConvexClientProvider from "@/components/providers/convex-client-provider";
 import { dark } from "@clerk/ui/themes";
 import { Toaster } from "@/components/ui/toast";
+import AppHeader from "@/components/layout/app-header";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -45,7 +46,10 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <ClerkProvider appearance={{ theme: dark }}>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <ConvexClientProvider>
+            <AppHeader />
+            {children}
+          </ConvexClientProvider>
         </ClerkProvider>
         <Toaster />
       </body>
