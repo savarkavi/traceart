@@ -9,7 +9,7 @@ export const generateUploadUrl = mutation({
 });
 
 export const createVersion = mutation({
-  args: { projectId: v.id("project"), storageId: v.string() },
+  args: { projectId: v.id("projects"), storageId: v.string() },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
 
