@@ -6,4 +6,9 @@ export default defineSchema({
     ownerTokenIdentifier: v.string(),
     title: v.string(),
   }).index("by_ownerTokenIdentifier", ["ownerTokenIdentifier"]),
+
+  versions: defineTable({
+    projectId: v.id("project"),
+    storageId: v.string(),
+  }).index("by_projectId", ["projectId"]),
 });
