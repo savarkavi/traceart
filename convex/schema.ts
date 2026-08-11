@@ -9,6 +9,6 @@ export default defineSchema({
 
   versions: defineTable({
     projectId: v.id("projects"),
-    storageId: v.string(),
+    storageId: v.id("_storage"),
   }).index("by_projectId", ["projectId"]),
 });

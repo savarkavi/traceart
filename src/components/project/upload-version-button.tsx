@@ -43,7 +43,7 @@ const UploadVersionButton = ({
     setIsUploading(true);
 
     try {
-      const uploadUrl = await generateUploadUrl();
+      const uploadUrl = await generateUploadUrl({ projectId });
 
       const response = await fetch(uploadUrl, {
         method: "POST",
