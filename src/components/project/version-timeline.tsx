@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import type { Doc } from "../../../convex/_generated/dataModel";
+import { Button } from "../ui/button";
 
 type VersionWithImage = Doc<"versions"> & {
   imageUrl: string | null;
@@ -24,10 +25,15 @@ export default function VersionTimeline({ versions }: VersionTimelineProps) {
         </div>
       </div>
 
-      <div className="overflow-x-auto pb-4">
-        <div className="relative flex min-w-max snap-x snap-mandatory gap-4 px-2 pt-8">
-          <div className="bg-border absolute top-3 right-6 left-6 h-px" />
+      <div className="flex flex-col gap-6 overflow-x-auto">
+        <div className="bg-border h-px w-full" />
 
+        <div className="flex gap-2">
+          <Button variant="outline">Before</Button>
+          <Button variant="outline">After</Button>
+        </div>
+
+        <div className="relative flex min-w-max snap-x snap-mandatory gap-4">
           {versions.map((version, index) => (
             <article
               key={version._id}
