@@ -1,7 +1,9 @@
 import Image from "next/image";
 
-import type { Doc } from "../../../convex/_generated/dataModel";
+import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import { Button } from "../ui/button";
+import { SelectionTarget } from "./project-workspace";
+import { cn } from "@/lib/utils";
 
 type VersionWithImage = Doc<"versions"> & {
   imageUrl: string | null;
@@ -9,9 +11,21 @@ type VersionWithImage = Doc<"versions"> & {
 
 type VersionTimelineProps = {
   versions: VersionWithImage[];
+  beforeId: Id<"versions">;
+  afterId: Id<"versions">;
+  selectionTarget: SelectionTarget;
+  onChangeSelectionTarget: (selectionTarget: SelectionTarget) => void;
+  onSelectVersion: (versionId: Id<"versions">) => void;
 };
 
-export default function VersionTimeline({ versions }: VersionTimelineProps) {
+export default function VersionTimeline({
+  versions,
+  beforeId,
+  afterId,
+  selectionTarget,
+  onChangeSelectionTarget,
+  onSelectVersion,
+}: VersionTimelineProps) {
   return (
     <section className="mt-20">
       <div className="mb-4 flex items-center justify-between">
@@ -29,15 +43,47 @@ export default function VersionTimeline({ versions }: VersionTimelineProps) {
         <div className="bg-border h-px w-full" />
 
         <div className="flex gap-2">
-          <Button variant="outline">Before</Button>
-          <Button variant="outline">After</Button>
+          <Button
+            onClick={() => onChangeSelectionTarget("before")}
+            className={cn(
+              selectionTarget === "before"
+                ? "bg-primary"
+                : "bg-background border-border text-foreground hover:bg-muted hover:text-foreground",
+            )}
+          >
+            Before
+          </Button>
+          <Button
+            onClick={() => onChangeSelectionTarget("after")}
+            className={cn(
+              selectionTarget === "after"
+                ? "bg-primary"
+                : "bg-background border-border text-foreground hover:bg-muted hover:text-foreground",
+            )}
+          >
+            After
+          </Button>
         </div>
 
         <div className="relative flex min-w-max snap-x snap-mandatory gap-4">
           {versions.map((version, index) => (
             <article
               key={version._id}
-              className="relative w-50 shrink-0 snap-start"
+              className={cn(
+                "relative w-50 shrink-0 cursor-pointer snap-start",
+                selectionTarget === "after"
+                  ? afterId === version._id &&
+                      "rounded-lg border-3 border-blue-500"
+                  : beforeId === version._id &&
+                      "rounded-lg border-3 border-blue-500",
+                selectionTarget === "after" &&
+                  version._id === beforeId &&
+                  "cursor-not-allowed",
+                selectionTarget === "before" &&
+                  version._id === afterId &&
+                  "cursor-not-allowed",
+              )}
+              onClick={() => onSelectVersion(version._id)}
             >
               <div className="border-border bg-card overflow-hidden rounded-lg border shadow-sm">
                 {version.imageUrl ? (
