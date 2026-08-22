@@ -1,6 +1,8 @@
-import { Upload } from "lucide-react";
+import { Pencil, Upload } from "lucide-react";
 import UploadVersionButton from "./upload-version-button";
 import { Id } from "../../../convex/_generated/dataModel";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 type ProjectHeaderProps = {
   projectName?: string;
@@ -23,13 +25,21 @@ export default function ProjectHeader({
           {description}
         </p>
       </div>
-      <UploadVersionButton
-        projectId={projectId}
-        classNames="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-10 shrink-0 items-center gap-2 rounded-lg px-4 text-sm font-semibold shadow-sm transition-all active:translate-y-px cursor-pointer"
-      >
-        <Upload className="size-4" />
-        Upload version
-      </UploadVersionButton>
+      <div className="flex items-center gap-4">
+        <Link href={`/projects/${projectId}/settings`}>
+          <Button variant="outline" className="py-4.5">
+            <Pencil className="text-muted-foreground size-3.5" />
+            Edit details
+          </Button>
+        </Link>
+        <UploadVersionButton
+          projectId={projectId}
+          classNames="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex py-2 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-semibold shadow-sm transition-all active:translate-y-px cursor-pointer"
+        >
+          <Upload className="size-3.5" />
+          Upload version
+        </UploadVersionButton>
+      </div>
     </section>
   );
 }
