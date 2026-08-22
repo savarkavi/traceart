@@ -24,7 +24,7 @@ const VersionComparison = ({ before, after }: VersionComparisonProps) => {
   return (
     <div className="bg-card border-border relative rounded-2xl border shadow-sm">
       {after.imageUrl ? (
-        <div className="relative h-200 w-full bg-black/5">
+        <div className="relative h-150 w-full bg-black/5">
           <Image
             src={after.imageUrl}
             alt="artwork version"
@@ -33,13 +33,13 @@ const VersionComparison = ({ before, after }: VersionComparisonProps) => {
           />
         </div>
       ) : (
-        <div className="text-muted-foreground flex h-200 w-full items-center justify-center">
+        <div className="text-muted-foreground flex h-150 w-full items-center justify-center">
           Image unavailable
         </div>
       )}
       {before.imageUrl ? (
         <div
-          className="absolute inset-0 h-200 w-full bg-black/5"
+          className="absolute inset-0 h-150 w-full bg-black/5"
           style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
           <Image
@@ -50,7 +50,7 @@ const VersionComparison = ({ before, after }: VersionComparisonProps) => {
           />
         </div>
       ) : (
-        <div className="text-muted-foreground flex h-200 w-full items-center justify-center">
+        <div className="text-muted-foreground flex h-150 w-full items-center justify-center">
           Image unavailable
         </div>
       )}
