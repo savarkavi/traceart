@@ -5,6 +5,7 @@ export default defineSchema({
   projects: defineTable({
     ownerTokenIdentifier: v.string(),
     title: v.string(),
+    description: v.string(),
   }).index("by_ownerTokenIdentifier", ["ownerTokenIdentifier"]),
 
   versions: defineTable({
