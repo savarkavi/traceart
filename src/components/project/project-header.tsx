@@ -1,35 +1,22 @@
 "use client";
 
-import { useQuery } from "convex/react";
 import { Pencil, Upload } from "lucide-react";
 import Link from "next/link";
-import { api } from "../../../convex/_generated/api";
-import type { Id } from "../../../convex/_generated/dataModel";
+import type { Doc } from "../../../convex/_generated/dataModel";
 import { Button } from "../ui/button";
 import UploadVersionButton from "./upload-version-button";
 
 type ProjectHeaderProps = {
-  projectId: Id<"projects">;
+  project: Doc<"projects">;
 };
 
-export default function ProjectHeader({ projectId }: ProjectHeaderProps) {
-  const project = useQuery(api.project.getProjectById, { projectId });
-
-  if (project === undefined) {
-    return <div>Loading project...</div>;
-  }
-
-  if (project === null) {
-    return <div>Project not found.</div>;
-  }
+export default function ProjectHeader({ project }: ProjectHeaderProps) {
+  const projectId = project._id;
 
   return (
     <section className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
       <div>
         <h1 className="mt-3 text-4xl font-semibold">{project.title}</h1>
-        <p className="text-muted-foreground mt-3 max-w-md text-base leading-7">
-          {project.description}
-        </p>
       </div>
       <div className="flex items-center gap-4">
         <Link href={`/projects/${projectId}/settings`}>
