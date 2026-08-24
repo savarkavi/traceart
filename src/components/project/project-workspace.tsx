@@ -48,7 +48,7 @@ const ProjectWorkspace = ({ projectId }: ProjectWorkspaceProps) => {
   const hasVersions = versions.length > 0;
 
   return (
-    <div>
+    <div className="w-full">
       {hasVersions ? (
         <>
           <VersionComparison
