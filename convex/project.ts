@@ -47,6 +47,24 @@ export const createProject = mutation({
   },
 });
 
+export const getMyProjects = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    return ctx.db
+      .query("projects")
+      .withIndex("by_ownerTokenIdentifier", (q) =>
+        q.eq("ownerTokenIdentifier", identity.tokenIdentifier),
+      )
+      .collect();
+  },
+});
+
 export const getProjectById = query({
   args: { projectId: v.id("projects") },
   handler: async (ctx, args) => {
