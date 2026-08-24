@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 const AppHeader = () => {
   return (
     <header className="border-b">
-      <div className="mx-auto flex max-w-6xl items-center justify-between p-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between p-3">
         <p className="text-2xl font-bold">TraceArt</p>
         <Show when="signed-out">
           <div className="flex items-center gap-4">
