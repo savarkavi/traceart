@@ -18,8 +18,17 @@ interface VersionComparisonProps {
   after: VersionWithImage;
 }
 
-const VersionComparison = ({ before, after }: VersionComparisonProps) => {
+const VersionComparison = ({
+  versions,
+  before,
+  after,
+}: VersionComparisonProps) => {
   const [sliderPosition, setSliderPosition] = useState(50);
+
+  const beforeVersionNumber =
+    versions.findIndex((version) => version._id === before._id) + 1;
+  const afterVersionNumber =
+    versions.findIndex((version) => version._id === after._id) + 1;
 
   return (
     <div className="bg-card border-border relative rounded-2xl border shadow-sm">
@@ -62,6 +71,13 @@ const VersionComparison = ({ before, after }: VersionComparisonProps) => {
         <div className="absolute top-1/2 left-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-sm font-semibold text-black shadow-lg">
           ↔
         </div>
+      </div>
+
+      <div className="pointer-events-none absolute top-4 left-4 z-30 rounded-full bg-black/70 px-3 py-1 text-xs font-medium text-white shadow-sm backdrop-blur-sm">
+        V {beforeVersionNumber}
+      </div>
+      <div className="pointer-events-none absolute top-4 right-4 z-30 rounded-full bg-black/70 px-3 py-1 text-xs font-medium text-white shadow-sm backdrop-blur-sm">
+        V {afterVersionNumber}
       </div>
 
       <input
