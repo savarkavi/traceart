@@ -21,7 +21,12 @@ export const generateUploadUrl = mutation({
 });
 
 export const createVersion = mutation({
-  args: { projectId: v.id("projects"), storageId: v.id("_storage") },
+  args: {
+    projectId: v.id("projects"),
+    storageId: v.id("_storage"),
+    title: v.string(),
+    description: v.string(),
+  },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
 
@@ -38,6 +43,8 @@ export const createVersion = mutation({
     return ctx.db.insert("versions", {
       projectId: args.projectId,
       storageId: args.storageId,
+      title: args.title,
+      description: args.description,
     });
   },
 });
