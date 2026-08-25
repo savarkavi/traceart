@@ -90,10 +90,10 @@ const VersionComparison = ({
         </div>
 
         <div className="pointer-events-none absolute top-4 left-4 z-30 rounded-full bg-black/70 px-3 py-1 text-xs font-medium text-white shadow-sm backdrop-blur-sm">
-          V {beforeVersionNumber}
+          V{beforeVersionNumber}
         </div>
         <div className="pointer-events-none absolute top-4 right-4 z-30 rounded-full bg-black/70 px-3 py-1 text-xs font-medium text-white shadow-sm backdrop-blur-sm">
-          V {afterVersionNumber}
+          V{afterVersionNumber}
         </div>
 
         <input
