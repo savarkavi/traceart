@@ -13,7 +13,6 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
           <p className="text-muted-foreground text-[10px] font-semibold tracking-[0.16em] uppercase">
             Project details
           </p>
-          <h2 className="mt-1 text-base font-semibold">The brief</h2>
         </div>
         <button
           type="button"
@@ -26,11 +25,11 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
       <div className="space-y-4 text-sm">
         <div>
           <p className="text-muted-foreground mb-1 text-xs">Title</p>
-            <p className="font-medium">{project.title}</p>
+          <p className="font-medium">{project.title}</p>
         </div>
         <div>
           <p className="text-muted-foreground mb-1 text-xs">Description</p>
-          <p className="text-muted-foreground leading-5">
+          <p className="leading-5 font-medium">
             {project.description || "No description yet."}
           </p>
         </div>
