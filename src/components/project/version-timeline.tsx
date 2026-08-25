@@ -104,15 +104,22 @@ export default function VersionTimeline({
 
                 <div className="flex justify-between gap-4 p-2">
                   <div>
-                    <h3 className="text-sm font-semibold">
-                      Version {index + 1}
-                    </h3>
+                    <h3 className="text-sm font-semibold">{version.title}</h3>
                     <p className="text-muted-foreground mt-1 text-xs">
-                      Added {new Date(version._creationTime).toLocaleString()}
+                      {new Date(version._creationTime).toLocaleDateString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        },
+                      )}
                     </p>
                   </div>
 
-                  <span className="text-muted-foreground text-xs">Artwork</span>
+                  <span className="text-muted-foreground text-xs">
+                    V{index + 1}
+                  </span>
                 </div>
               </div>
             </article>
