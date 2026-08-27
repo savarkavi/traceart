@@ -1,5 +1,6 @@
 import { Clipboard, Pencil } from "lucide-react";
 import type { Doc } from "../../../convex/_generated/dataModel";
+import Link from "next/link";
 
 type ProjectDetailsProps = {
   project: Doc<"projects">;
@@ -14,13 +15,15 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
             Project details
           </p>
         </div>
-        <button
-          type="button"
-          className="text-primary hover:text-primary/70 inline-flex items-center gap-1 text-xs font-semibold transition-colors"
-        >
-          <Pencil className="size-3" />
-          Edit
-        </button>
+        <Link href={`/projects/${project._id}/settings`}>
+          <button
+            type="button"
+            className="text-primary hover:text-primary/70 inline-flex items-center gap-1 text-xs font-semibold transition-colors"
+          >
+            <Pencil className="size-3" />
+            Edit
+          </button>
+        </Link>
       </div>
       <div className="space-y-4 text-sm">
         <div>

@@ -20,7 +20,7 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
       </div>
       <div className="flex items-center gap-4">
         <Link href={`/projects/${projectId}/settings`}>
-          <Button variant="outline" className="py-4.5">
+          <Button variant="outline" className="py-3.5">
             <Pencil className="text-muted-foreground size-3.5" />
             Edit details
           </Button>
