@@ -7,6 +7,7 @@ import { api } from "../../../convex/_generated/api";
 import VersionComparison from "./version-comparison";
 import VersionTimeline from "./version-timeline";
 import { useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 interface ProjectWorkspaceProps {
   projectId: Id<"projects">;
@@ -22,7 +23,7 @@ const ProjectWorkspace = ({ projectId }: ProjectWorkspaceProps) => {
     useState<SelectionTarget>("after");
 
   if (versions === undefined) {
-    return <div>Loading versions...</div>;
+    return <Skeleton className="h-150 w-full rounded-xl" />;
   }
 
   const defaultBefore = versions[Math.max(versions.length - 2, 0)];

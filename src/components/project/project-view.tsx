@@ -6,6 +6,7 @@ import type { Id } from "../../../convex/_generated/dataModel";
 import ProjectDetails from "./project-details";
 import ProjectHeader from "./project-header";
 import ProjectWorkspace from "./project-workspace";
+import { Loader } from "lucide-react";
 
 type ProjectViewProps = {
   projectId: Id<"projects">;
@@ -16,10 +17,8 @@ export default function ProjectView({ projectId }: ProjectViewProps) {
 
   if (project === undefined) {
     return (
-      <main className="bg-background text-foreground min-h-screen">
-        <div className="mx-auto max-w-7xl px-3 py-10 lg:py-12">
-          Loading project...
-        </div>
+      <main className="bg-background text-foreground flex h-screen items-center justify-center">
+        <Loader className="animate-spin" />
       </main>
     );
   }
