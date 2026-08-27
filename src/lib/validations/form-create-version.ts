@@ -28,3 +28,23 @@ export const uploadVersionSchema = z.object({
       "Please select a PNG, JPEG, WEBP, or GIF image.",
     ),
 });
+
+export const editVersionSchema = z.object({
+  title: uploadVersionSchema.shape.title,
+  description: uploadVersionSchema.shape.description,
+  file: z
+    .custom<File | undefined>(
+      (value) =>
+        value === undefined ||
+        (typeof File !== "undefined" && value instanceof File),
+      "Please select an image.",
+    )
+    .refine(
+      (file) => !file || file.size <= MAX_FILE_SIZE,
+      "Images must be smaller than 10 MB.",
+    )
+    .refine(
+      (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
+      "Please select a PNG, JPEG, WEBP, or GIF image.",
+    ),
+});

@@ -57,6 +57,7 @@ const ProjectWorkspace = ({ projectId }: ProjectWorkspaceProps) => {
             after={after}
           />
           <VersionTimeline
+            projectId={projectId}
             versions={versions}
             beforeId={before._id}
             afterId={after._id}

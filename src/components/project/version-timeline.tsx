@@ -3,13 +3,15 @@ import Image from "next/image";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import { Button } from "../ui/button";
 import { SelectionTarget } from "./project-workspace";
+import EditVersionButton from "./edit-version-button";
 import { cn } from "@/lib/utils";
 
-type VersionWithImage = Doc<"versions"> & {
+export type VersionWithImage = Doc<"versions"> & {
   imageUrl: string | null;
 };
 
 type VersionTimelineProps = {
+  projectId: Id<"projects">;
   versions: VersionWithImage[];
   beforeId: Id<"versions">;
   afterId: Id<"versions">;
@@ -19,6 +21,7 @@ type VersionTimelineProps = {
 };
 
 export default function VersionTimeline({
+  projectId,
   versions,
   beforeId,
   afterId,
@@ -95,10 +98,22 @@ export default function VersionTimeline({
                       sizes="320px"
                       className="object-cover"
                     />
+                    <div className="absolute top-2 right-2">
+                      <EditVersionButton
+                        version={version}
+                        projectId={projectId}
+                      />
+                    </div>
                   </div>
                 ) : (
-                  <div className="text-muted-foreground bg-muted flex aspect-4/3 items-center justify-center text-sm">
+                  <div className="text-muted-foreground bg-muted relative flex aspect-4/3 items-center justify-center text-sm">
                     Image unavailable
+                    <div className="absolute top-2 right-2">
+                      <EditVersionButton
+                        version={version}
+                        projectId={projectId}
+                      />
+                    </div>
                   </div>
                 )}
 
