@@ -45,7 +45,7 @@ const VersionComparison = ({
         </div>
         <MoreHorizontal className="size-4" />
       </div>
-      <div className="relative bg-[#ded8ca] py-4">
+      <div className="relative mx-auto w-full">
         <div className="relative">
           {after.imageUrl ? (
             <div className="relative h-150 w-full">
@@ -63,7 +63,7 @@ const VersionComparison = ({
           )}
           {before.imageUrl ? (
             <div
-              className="absolute inset-0 h-150 w-full"
+              className="bg-card absolute inset-0 h-150 w-full"
               style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
             >
               <Image
@@ -106,7 +106,7 @@ const VersionComparison = ({
           className="absolute inset-0 z-20 h-full w-full cursor-col-resize opacity-0"
         />
       </div>
-      <div className="flex w-full items-center justify-between p-4">
+      <div className="flex w-full items-center justify-between border-t-2 p-4">
         <div></div>
         <div className="flex items-center gap-2 text-xs font-medium">
           <Sparkles className="size-3.5" />
