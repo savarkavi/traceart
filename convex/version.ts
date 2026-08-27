@@ -7,7 +7,7 @@ export const generateUploadUrl = mutation({
     const identity = await ctx.auth.getUserIdentity();
 
     if (!identity) {
-      throw new Error("Not Authenticated");
+      throw new Error("Not authenticated");
     }
 
     const project = await ctx.db.get("projects", args.projectId);
@@ -31,7 +31,7 @@ export const createVersion = mutation({
     const identity = await ctx.auth.getUserIdentity();
 
     if (!identity) {
-      throw new Error("Not Authenticated");
+      throw new Error("Not authenticated");
     }
 
     const project = await ctx.db.get("projects", args.projectId);
@@ -55,7 +55,7 @@ export const getAllVersions = query({
     const identity = await ctx.auth.getUserIdentity();
 
     if (!identity) {
-      throw new Error("Not Authenticated");
+      throw new Error("Not authenticated");
     }
 
     const project = await ctx.db.get("projects", args.projectId);
@@ -76,5 +76,40 @@ export const getAllVersions = query({
         imageUrl: await ctx.storage.getUrl(version.storageId),
       })),
     );
+  },
+});
+
+export const updateVersion = mutation({
+  args: {
+    versionId: v.id("versions"),
+    projectId: v.id("projects"),
+    title: v.string(),
+    description: v.string(),
+    storageId: v.id("_storage"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const project = await ctx.db.get("projects", args.projectId);
+
+    if (!project || project.ownerTokenIdentifier !== identity.tokenIdentifier) {
+      throw new Error("Project not found");
+    }
+
+    const version = await ctx.db.get("versions", args.versionId);
+
+    if (!version) {
+      throw new Error("Version not found");
+    }
+
+    await ctx.db.patch("versions", args.versionId, {
+      title: args.title,
+      description: args.description,
+      storageId: args.storageId,
+    });
   },
 });
