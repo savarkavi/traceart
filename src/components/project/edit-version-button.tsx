@@ -131,10 +131,10 @@ const EditVersionButton = ({ version, projectId }: EditVersionButtonProps) => {
             type="button"
             variant="ghost"
             size="icon-xs"
-            className="bg-background/90 shadow-sm backdrop-blur-sm"
+            className="bg-primary group shadow-sm backdrop-blur-sm"
             aria-label={`Edit ${version.title}`}
           >
-            <Pencil className="size-3" />
+            <Pencil className="size-3 text-black group-hover:text-white" />
           </Button>
         }
       />
