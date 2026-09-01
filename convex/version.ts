@@ -67,7 +67,7 @@ export const getAllVersions = query({
     const versions = await ctx.db
       .query("versions")
       .withIndex("by_projectId", (q) => q.eq("projectId", args.projectId))
-      .order("asc")
+      .order("desc")
       .collect();
 
     return Promise.all(

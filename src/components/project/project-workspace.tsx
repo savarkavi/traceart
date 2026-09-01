@@ -26,8 +26,8 @@ const ProjectWorkspace = ({ projectId }: ProjectWorkspaceProps) => {
     return <Skeleton className="h-150 w-full rounded-xl" />;
   }
 
-  const defaultBefore = versions[Math.max(versions.length - 2, 0)];
-  const defaultAfter = versions[versions.length - 1];
+  const defaultBefore = versions[Math.max(1, 0)];
+  const defaultAfter = versions[0];
 
   const before =
     versions.find((version) => version._id === beforeId) ?? defaultBefore;
