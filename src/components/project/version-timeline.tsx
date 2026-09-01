@@ -76,9 +76,9 @@ export default function VersionTimeline({
                 "relative w-full shrink-0 cursor-pointer snap-start",
                 selectionTarget === "after"
                   ? afterId === version._id &&
-                      "border-primary rounded-lg border-3"
+                      "border-primary rounded-xl border-3"
                   : beforeId === version._id &&
-                      "border-primary rounded-lg border-3",
+                      "border-primary rounded-xl border-3",
                 selectionTarget === "after" &&
                   version._id === beforeId &&
                   "cursor-not-allowed",
@@ -131,7 +131,7 @@ export default function VersionTimeline({
                 <EditVersionButton version={version} projectId={projectId} />
               </div>
               <div className="text-muted-foreground absolute right-3 bottom-3 flex w-fit items-center justify-center text-xs">
-                <p>V{index + 1}</p>
+                <p>V{versions.length - index}</p>
               </div>
             </article>
           ))}
