@@ -68,17 +68,17 @@ export default function VersionTimeline({
           </Button>
         </div>
 
-        <div className="relative flex min-w-max snap-x snap-mandatory flex-col gap-4">
+        <div className="relative flex min-w-max snap-x snap-mandatory gap-4">
           {versions.map((version, index) => (
             <article
               key={version._id}
               className={cn(
-                "relative w-full shrink-0 cursor-pointer snap-start",
+                "relative h-full w-40 cursor-pointer snap-start",
                 selectionTarget === "after"
                   ? afterId === version._id &&
-                      "border-primary rounded-xl border-3"
+                      "border-primary rounded-lg border-3"
                   : beforeId === version._id &&
-                      "border-primary rounded-xl border-3",
+                      "border-primary rounded-lg border-3",
                 selectionTarget === "after" &&
                   version._id === beforeId &&
                   "cursor-not-allowed",
@@ -88,9 +88,9 @@ export default function VersionTimeline({
               )}
               onClick={() => onSelectVersion(version._id)}
             >
-              <div className="border-border bg-card flex h-30 items-start gap-2 overflow-hidden rounded-lg border shadow-sm">
+              <div className="border-border bg-card flex flex-col items-start overflow-hidden rounded-sm border shadow-sm">
                 {version.imageUrl ? (
-                  <div className="bg-muted relative h-full w-40">
+                  <div className="bg-muted relative h-25 w-40">
                     <Image
                       src={version.imageUrl}
                       alt={`Version ${index + 1}`}
@@ -105,33 +105,30 @@ export default function VersionTimeline({
                   </div>
                 )}
 
-                <div className="flex max-w-xl flex-col justify-between gap-1 p-4">
-                  <div className="flex items-center gap-2">
+                <div className="flex w-full flex-col justify-between gap-1 p-3">
+                  <div className="flex w-full flex-col gap-1">
                     <h3 className="text-sm font-semibold">{version.title}</h3>
-                    <p className="text-muted-foreground text-xs">
-                      {new Date(version._creationTime).toLocaleDateString(
-                        "en-US",
-                        {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        },
-                      )}
-                    </p>
+                    <div className="text-muted-foreground flex w-full items-center justify-between gap-4 text-[0.70rem]">
+                      <p>
+                        {new Date(version._creationTime).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          },
+                        )}
+                      </p>
+                      <p>V{versions.length - index}</p>
+                    </div>
                   </div>
-                  <p className="text-muted-foreground line-clamp-3">
-                    {version.description}
-                  </p>
                 </div>
               </div>
               <div
-                className="absolute top-3 right-3"
+                className="absolute top-2 right-2"
                 onClick={(e) => e.stopPropagation()}
               >
                 <EditVersionButton version={version} projectId={projectId} />
-              </div>
-              <div className="text-muted-foreground absolute right-3 bottom-3 flex w-fit items-center justify-center text-xs">
-                <p>V{versions.length - index}</p>
               </div>
             </article>
           ))}
