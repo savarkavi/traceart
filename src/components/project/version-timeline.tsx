@@ -1,36 +1,26 @@
+"use client";
+
 import Image from "next/image";
+import { useQuery } from "convex/react";
 
-import type { Doc, Id } from "../../../convex/_generated/dataModel";
-import { Button } from "../ui/button";
-import { SelectionTarget } from "./project-workspace";
+import { api } from "../../../convex/_generated/api";
+import { Skeleton } from "../ui/skeleton";
 import EditVersionButton from "./edit-version-button";
-import { cn } from "@/lib/utils";
+import { useProject } from "./project-layout-client";
+import type { VersionWithImage } from "./version-thumbnails";
 
-export type VersionWithImage = Doc<"versions"> & {
-  imageUrl: string | null;
-};
+const VersionTimeline = () => {
+  const project = useProject();
+  const versions = useQuery(api.version.getAllVersions, {
+    projectId: project._id,
+  });
 
-type VersionTimelineProps = {
-  projectId: Id<"projects">;
-  versions: VersionWithImage[];
-  beforeId: Id<"versions">;
-  afterId: Id<"versions">;
-  selectionTarget: SelectionTarget;
-  onChangeSelectionTarget: (selectionTarget: SelectionTarget) => void;
-  onSelectVersion: (versionId: Id<"versions">) => void;
-};
+  if (versions === undefined) {
+    return <Skeleton className="mt-20 h-40 w-full rounded-xl" />;
+  }
 
-export default function VersionTimeline({
-  projectId,
-  versions,
-  beforeId,
-  afterId,
-  selectionTarget,
-  onChangeSelectionTarget,
-  onSelectVersion,
-}: VersionTimelineProps) {
   return (
-    <section className="mt-20">
+    <section className="mt-12 w-full">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="text-sm font-semibold tracking-wide uppercase">
@@ -42,98 +32,89 @@ export default function VersionTimeline({
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 overflow-x-auto">
-        <div className="bg-border h-px w-full" />
-
-        <div className="flex gap-2">
-          <Button
-            onClick={() => onChangeSelectionTarget("before")}
-            className={cn(
-              selectionTarget === "before"
-                ? "bg-primary"
-                : "bg-background border-border text-foreground hover:bg-muted hover:text-foreground",
-            )}
-          >
-            Before
-          </Button>
-          <Button
-            onClick={() => onChangeSelectionTarget("after")}
-            className={cn(
-              selectionTarget === "after"
-                ? "bg-primary"
-                : "bg-background border-border text-foreground hover:bg-muted hover:text-foreground",
-            )}
-          >
-            After
-          </Button>
+      {versions.length === 0 ? (
+        <div className="border-border bg-card text-muted-foreground rounded-xl border border-dashed px-6 py-12 text-center text-sm">
+          No versions yet.
         </div>
-
-        <div className="relative flex min-w-max snap-x snap-mandatory gap-4">
+      ) : (
+        <div className="flex w-full flex-col gap-4">
           {versions.map((version, index) => (
-            <article
+            <VersionTimelineItem
               key={version._id}
-              className={cn(
-                "relative h-full w-40 cursor-pointer snap-start",
-                selectionTarget === "after"
-                  ? afterId === version._id &&
-                      "border-primary rounded-lg border-3"
-                  : beforeId === version._id &&
-                      "border-primary rounded-lg border-3",
-                selectionTarget === "after" &&
-                  version._id === beforeId &&
-                  "cursor-not-allowed",
-                selectionTarget === "before" &&
-                  version._id === afterId &&
-                  "cursor-not-allowed",
-              )}
-              onClick={() => onSelectVersion(version._id)}
-            >
-              <div className="border-border bg-card flex flex-col items-start overflow-hidden rounded-sm border shadow-sm">
-                {version.imageUrl ? (
-                  <div className="bg-muted relative h-25 w-40">
-                    <Image
-                      src={version.imageUrl}
-                      alt={`Version ${index + 1}`}
-                      fill
-                      sizes="320px"
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="text-muted-foreground bg-muted relative flex aspect-4/3 items-center justify-center text-sm">
-                    Image unavailable
-                  </div>
-                )}
-
-                <div className="flex w-full flex-col justify-between gap-1 p-3">
-                  <div className="flex w-full flex-col gap-1">
-                    <h3 className="text-sm font-semibold">{version.title}</h3>
-                    <div className="text-muted-foreground flex w-full items-center justify-between gap-4 text-[0.70rem]">
-                      <p>
-                        {new Date(version._creationTime).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          },
-                        )}
-                      </p>
-                      <p>V{versions.length - index}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="absolute top-2 right-2"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <EditVersionButton version={version} projectId={projectId} />
-              </div>
-            </article>
+              projectId={project._id}
+              version={version}
+              versionNumber={versions.length - index}
+            />
           ))}
         </div>
-      </div>
+      )}
     </section>
   );
+};
+
+type VersionTimelineItemProps = {
+  projectId: VersionWithImage["projectId"];
+  version: VersionWithImage;
+  versionNumber: number;
+};
+
+function VersionTimelineItem({
+  projectId,
+  version,
+  versionNumber,
+}: VersionTimelineItemProps) {
+  const createdAt = new Date(version._creationTime);
+
+  return (
+    <article className="border-border bg-card relative flex w-full gap-4 rounded-xl border p-3 shadow-sm sm:gap-6">
+      <div className="bg-muted relative aspect-4/3 w-22 shrink-0 overflow-hidden rounded-lg sm:w-40">
+        {version.imageUrl ? (
+          <Image
+            src={version.imageUrl}
+            alt={`Artwork for version ${versionNumber}: ${version.title}`}
+            fill
+            sizes="(min-width: 768px) 224px, (min-width: 640px) 192px, 128px"
+            className="object-cover"
+          />
+        ) : (
+          <div className="text-muted-foreground flex h-full items-center justify-center px-2 text-center text-xs">
+            Image unavailable
+          </div>
+        )}
+      </div>
+
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="bg-muted text-muted-foreground shrink-0 rounded-full px-2 py-0.5 text-xs font-medium">
+              V{versionNumber}
+            </span>
+            <h3 className="truncate text-sm font-semibold sm:text-base">
+              {version.title}
+            </h3>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-4">
+            <time
+              dateTime={createdAt.toISOString()}
+              className="text-muted-foreground text-right text-xs"
+            >
+              {createdAt.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </time>
+            <EditVersionButton version={version} projectId={projectId} />
+          </div>
+        </div>
+
+        <p className="text-muted-foreground mt-3 max-w-xl text-sm leading-6">
+          {version.description || "No description added."}
+        </p>
+      </div>
+    </article>
+  );
 }
+
+export default VersionTimeline;

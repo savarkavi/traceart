@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { VersionWithImage } from "./version-timeline";
+import { VersionWithImage } from "./version-thumbnails";
 import { Id } from "../../../convex/_generated/dataModel";
 
 interface EditVersionButtonProps {
@@ -131,7 +131,7 @@ const EditVersionButton = ({ version, projectId }: EditVersionButtonProps) => {
             type="button"
             variant="ghost"
             size="icon-xs"
-            className="bg-primary group shadow-sm backdrop-blur-sm"
+            className="bg-primary group rounded-full p-3 shadow-sm backdrop-blur-sm"
             aria-label={`Edit ${version.title}`}
           >
             <Pencil className="size-3 text-black group-hover:text-white" />

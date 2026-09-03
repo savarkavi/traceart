@@ -53,6 +53,8 @@ const VersionComparison = ({
                 src={after.imageUrl}
                 alt="artwork version"
                 fill
+                sizes="(min-width: 1280px) 904px, calc(100vw - 376px)"
+                loading="eager"
                 className="h-auto w-full object-contain"
               />
             </div>
@@ -70,6 +72,8 @@ const VersionComparison = ({
                 src={before.imageUrl}
                 alt="artwork version"
                 fill
+                sizes="(min-width: 1280px) 904px, calc(100vw - 376px)"
+                loading="eager"
                 className="h-auto w-full object-contain"
               />
             </div>

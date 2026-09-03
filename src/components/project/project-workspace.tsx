@@ -5,7 +5,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 import ProjectEmptyUpload from "./project-empty-upload";
 import { api } from "../../../convex/_generated/api";
 import VersionComparison from "./version-comparison";
-import VersionTimeline from "./version-timeline";
+import VersionThumbnails from "./version-thumbnails";
 import { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -57,7 +57,7 @@ const ProjectWorkspace = ({ projectId }: ProjectWorkspaceProps) => {
             before={before}
             after={after}
           />
-          <VersionTimeline
+          <VersionThumbnails
             projectId={projectId}
             versions={versions}
             beforeId={before._id}
