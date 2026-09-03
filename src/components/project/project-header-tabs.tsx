@@ -1,9 +1,6 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "../ui/button";
-import UploadVersionButton from "./upload-version-button";
-import { Pencil, Upload } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Doc } from "../../../convex/_generated/dataModel";
@@ -27,13 +24,14 @@ const ProjectHeaderTabs = ({ project }: ProjectHeaderTabsProps) => {
           : "overview";
 
   return (
-    <div className="mt-8 flex items-center justify-between border-b py-4">
+    <div className="flex items-center justify-between border-b py-2">
       <Tabs value={activeTab}>
-        <TabsList variant="line">
+        <TabsList variant="line" className="gap-6">
           <TabsTrigger
             nativeButton={false}
             render={<Link href={`/projects/${projectId}/`} />}
             value="overview"
+            className="data-active:font-bold"
           >
             Overview
           </TabsTrigger>
@@ -41,6 +39,7 @@ const ProjectHeaderTabs = ({ project }: ProjectHeaderTabsProps) => {
             nativeButton={false}
             render={<Link href={`/projects/${projectId}/timeline`} />}
             value="timeline"
+            className="data-active:font-bold"
           >
             Timeline
           </TabsTrigger>
@@ -48,26 +47,12 @@ const ProjectHeaderTabs = ({ project }: ProjectHeaderTabsProps) => {
             nativeButton={false}
             render={<Link href={`/projects/${projectId}/compare`} />}
             value="compare"
+            className="data-active:font-bold"
           >
             Compare
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="flex items-center gap-4">
-        <Link href={`/projects/${projectId}/settings`}>
-          <Button variant="outline" className="py-3.5">
-            <Pencil className="text-muted-foreground size-3.5" />
-            Edit details
-          </Button>
-        </Link>
-        <UploadVersionButton
-          projectId={projectId}
-          classNames="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex py-2 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-semibold shadow-sm transition-all active:translate-y-px cursor-pointer"
-        >
-          <Upload className="size-3.5" />
-          Upload version
-        </UploadVersionButton>
-      </div>
     </div>
   );
 };

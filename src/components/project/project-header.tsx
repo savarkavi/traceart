@@ -1,14 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import type { Doc } from "../../../convex/_generated/dataModel";
 
 import ProjectHeaderTabs from "./project-header-tabs";
+import { Button } from "../ui/button";
+import { Pencil, Upload } from "lucide-react";
+import UploadVersionButton from "./upload-version-button";
 
 type ProjectHeaderProps = {
   project: Doc<"projects">;
 };
 
 export default function ProjectHeader({ project }: ProjectHeaderProps) {
+  const projectId = project._id;
+
   return (
     <section>
       <div className="flex flex-col items-start justify-between gap-6 border-b py-6 md:flex-row md:items-end">
@@ -28,6 +34,21 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
           {project.description && (
             <p className="text-muted-foreground">{project.description}</p>
           )}
+        </div>
+        <div className="flex items-center gap-4">
+          <Link href={`/projects/${projectId}/settings`}>
+            <Button variant="outline" className="py-3.5">
+              <Pencil className="text-muted-foreground size-3.5" />
+              Edit details
+            </Button>
+          </Link>
+          <UploadVersionButton
+            projectId={projectId}
+            classNames="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex py-2 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-semibold shadow-sm transition-all active:translate-y-px cursor-pointer"
+          >
+            <Upload className="size-3.5" />
+            Upload version
+          </UploadVersionButton>
         </div>
       </div>
       <ProjectHeaderTabs project={project} />
