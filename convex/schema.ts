@@ -13,5 +13,6 @@ export default defineSchema({
     storageId: v.id("_storage"),
     title: v.string(),
     description: v.string(),
+    type: v.union(v.literal("milestone"), v.literal("revision")),
   }).index("by_projectId", ["projectId"]),
 });

@@ -24,6 +24,7 @@ export const createVersion = mutation({
   args: {
     projectId: v.id("projects"),
     storageId: v.id("_storage"),
+    type: v.union(v.literal("milestone"), v.literal("revision")),
     title: v.string(),
     description: v.string(),
   },
@@ -43,6 +44,7 @@ export const createVersion = mutation({
     return ctx.db.insert("versions", {
       projectId: args.projectId,
       storageId: args.storageId,
+      type: args.type,
       title: args.title,
       description: args.description,
     });
