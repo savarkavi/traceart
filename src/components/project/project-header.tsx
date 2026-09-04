@@ -44,10 +44,10 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
           </Link>
           <UploadVersionButton
             projectId={projectId}
-            classNames="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex py-2 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-semibold shadow-sm transition-all active:translate-y-px cursor-pointer"
+            classNames="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex py-2 shrink-0 items-center gap-2 rounded-lg px-3 text-sm shadow-sm transition-all active:translate-y-px cursor-pointer"
           >
             <Upload className="size-3.5" />
-            Upload version
+            Add Version
           </UploadVersionButton>
         </div>
       </div>

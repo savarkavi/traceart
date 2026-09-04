@@ -1,8 +1,8 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useMutation } from "convex/react";
-import { Upload } from "lucide-react";
+import { useMutation, useQuery } from "convex/react";
+import { Flag, RotateCcw, Upload } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { api } from "../../../convex/_generated/api";
 import type { Id } from "../../../convex/_generated/dataModel";
@@ -30,12 +30,15 @@ import {
   ACCEPTED_IMAGE_TYPES,
   uploadVersionSchema,
 } from "@/lib/validations/form-create-version";
+import { cn } from "@/lib/utils";
 
 interface UploadVersionButton {
   children: React.ReactNode;
   projectId: Id<"projects">;
   classNames?: string;
 }
+
+type VersionType = "milestone" | "revision";
 
 const UploadVersionButton = ({
   children,
@@ -47,9 +50,11 @@ const UploadVersionButton = ({
 
   const generateUploadUrl = useMutation(api.version.generateUploadUrl);
   const createVersion = useMutation(api.version.createVersion);
+  const versions = useQuery(api.version.getAllVersions, { projectId });
 
   const form = useForm({
     defaultValues: {
+      type: "milestone" as VersionType,
       title: "",
       description: "",
       file: undefined as File | undefined,
@@ -84,6 +89,7 @@ const UploadVersionButton = ({
         await createVersion({
           projectId,
           storageId,
+          type: value.type,
           title: value.title.trim(),
           description: value.description.trim(),
         });
@@ -109,6 +115,22 @@ const UploadVersionButton = ({
     },
   });
 
+  if (versions === undefined) return;
+
+  const milestoneCount = versions.filter(
+    (version) => version.type === "milestone",
+  ).length;
+  const latestMilestoneNumber = Math.max(milestoneCount, 1);
+  const latestMilestoneIndex = versions.findIndex(
+    (version) => version.type === "milestone",
+  );
+  const revisionsSinceLatestMilestone =
+    latestMilestoneIndex === -1
+      ? 0
+      : versions
+          .slice(0, latestMilestoneIndex)
+          .filter((version) => version.type === "revision").length;
+
   return (
     <Dialog
       open={isOpen}
@@ -126,7 +148,7 @@ const UploadVersionButton = ({
           </Button>
         }
       />
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Add a version</DialogTitle>
           <DialogDescription>
@@ -142,6 +164,63 @@ const UploadVersionButton = ({
           }}
         >
           <FieldGroup>
+            <form.Field name="type">
+              {(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
+
+                const value = field.state.value;
+
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>Version Type</FieldLabel>
+                    <div className="flex justify-between gap-3">
+                      <div
+                        className={cn(
+                          "text-muted-foreground flex w-full cursor-pointer flex-col gap-1 rounded-lg border p-3 text-xs",
+                          value === "milestone" &&
+                            "border-primary bg-primary/5",
+                        )}
+                        onClick={() => field.handleChange("milestone")}
+                      >
+                        <Flag
+                          className={cn(
+                            "mb-1 size-4",
+                            value === "milestone" && "text-primary",
+                          )}
+                        />
+                        <p className="text-white">Milestone</p>
+                        <p>A new major checkpoint</p>
+                      </div>
+                      <div
+                        className={cn(
+                          "text-muted-foreground flex w-full cursor-pointer flex-col gap-1 rounded-lg border p-3 text-xs",
+                          value === "revision" && "border-primary bg-primary/5",
+                        )}
+                        onClick={() => field.handleChange("revision")}
+                      >
+                        <RotateCcw
+                          className={cn(
+                            "mb-1 size-4",
+                            value === "revision" && "text-primary",
+                          )}
+                        />
+                        <p className="text-white">Revision</p>
+                        <p>{`An update to version ${latestMilestoneNumber}`}</p>
+                      </div>
+                    </div>
+                    <div className="bg-muted text-muted-foreground w-full rounded-2xl px-4 py-2 text-xs">
+                      This will be saved as{" "}
+                      <span className="text-foreground font-medium">
+                        {value === "milestone"
+                          ? `V${milestoneCount + 1}`
+                          : `V${latestMilestoneNumber}.${revisionsSinceLatestMilestone + 1}`}
+                      </span>
+                    </div>
+                  </Field>
+                );
+              }}
+            </form.Field>
             <form.Field name="title">
               {(field) => {
                 const isInvalid =

@@ -9,6 +9,7 @@ export const ACCEPTED_IMAGE_TYPES = [
 ];
 
 export const uploadVersionSchema = z.object({
+  type: z.enum(["milestone", "revision"]),
   title: z.string().trim().min(1, "Version title is required."),
   description: z
     .string()
