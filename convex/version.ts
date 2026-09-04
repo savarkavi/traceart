@@ -41,9 +41,25 @@ export const createVersion = mutation({
       throw new Error("Project not found");
     }
 
+    const latestMilestone =
+      args.type === "revision"
+        ? await ctx.db
+            .query("versions")
+            .withIndex("by_projectId_and_type", (q) =>
+              q.eq("projectId", args.projectId).eq("type", "milestone"),
+            )
+            .order("desc")
+            .first()
+        : null;
+
+    if (args.type === "revision" && !latestMilestone) {
+      throw new Error("Create a milestone before adding a revision.");
+    }
+
     return ctx.db.insert("versions", {
       projectId: args.projectId,
       storageId: args.storageId,
+      milestoneId: latestMilestone?._id,
       type: args.type,
       title: args.title,
       description: args.description,
