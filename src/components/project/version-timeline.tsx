@@ -19,6 +19,10 @@ const VersionTimeline = () => {
     return <Skeleton className="mt-20 h-40 w-full rounded-xl" />;
   }
 
+  const milestoneVersions = versions.filter(
+    (version) => version.type === "milestone",
+  );
+
   return (
     <section className="mt-12 w-full">
       <div className="mb-4 flex items-center justify-between">
@@ -27,23 +31,24 @@ const VersionTimeline = () => {
             Artwork timeline
           </h2>
           <span className="bg-muted text-muted-foreground rounded-full px-2 py-0.5 text-xs">
-            {versions.length} {versions.length === 1 ? "version" : "versions"}
+            {milestoneVersions.length}{" "}
+            {milestoneVersions.length === 1 ? "version" : "versions"}
           </span>
         </div>
       </div>
 
-      {versions.length === 0 ? (
+      {milestoneVersions.length === 0 ? (
         <div className="border-border bg-card text-muted-foreground rounded-xl border border-dashed px-6 py-12 text-center text-sm">
           No versions yet.
         </div>
       ) : (
         <div className="flex w-full flex-col gap-4">
-          {versions.map((version, index) => (
+          {milestoneVersions.map((version, index) => (
             <VersionTimelineItem
               key={version._id}
               projectId={project._id}
               version={version}
-              versionNumber={versions.length - index}
+              versionNumber={milestoneVersions.length - index}
             />
           ))}
         </div>
