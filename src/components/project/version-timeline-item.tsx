@@ -21,11 +21,24 @@ const VersionTimelineItem = ({
   const createdAt = new Date(version._creationTime);
 
   return (
-    <article className="border-border bg-card relative flex w-full gap-4 rounded-lg border p-3 shadow-sm sm:gap-6">
+    <article
+      className={cn(
+        "border-border relative flex w-full gap-4 rounded-lg border p-3 shadow-sm",
+        version.type === "milestone"
+          ? "from-card via-card to-primary/10 bg-linear-to-br"
+          : "bg-card",
+      )}
+    >
+      {version.type === "milestone" ? (
+        <span
+          aria-hidden="true"
+          className="bg-primary ring-background absolute top-4 -left-6.5 z-10 size-2.5 rotate-45 rounded-[2px] ring-4"
+        />
+      ) : null}
       <div
         className={cn(
           "bg-muted relative aspect-4/3 shrink-0 overflow-hidden",
-          isRevision ? "w-20 rounded-sm" : "w-40 rounded-lg",
+          isRevision ? "w-14 rounded-sm" : "w-40 rounded-lg",
         )}
       >
         {version.imageUrl ? (
@@ -79,7 +92,7 @@ const VersionTimelineItem = ({
             isRevision ? "text-xs" : "text-sm",
           )}
         >
-          {version.description || "No description added."}
+          {version.description}
         </p>
       </div>
     </article>

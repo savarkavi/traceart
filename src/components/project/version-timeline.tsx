@@ -58,7 +58,7 @@ const VersionTimeline = () => {
           No versions yet.
         </div>
       ) : (
-        <div className="flex w-full flex-col gap-4">
+        <div className="before:bg-border relative flex w-full flex-col gap-4 pl-8 before:pointer-events-none before:absolute before:inset-y-0 before:left-3 before:w-px">
           {milestoneVersions.map((version, index) => {
             const revisions = versions.filter(
               (v) => v.milestoneId === version._id,
