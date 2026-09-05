@@ -218,7 +218,7 @@ const EditVersionButton = ({ version, projectId }: EditVersionButtonProps) => {
                     <label
                       htmlFor={field.name}
                       className={cn(
-                        "relative block w-full rounded-lg",
+                        "bg-muted relative block w-full rounded-lg border",
                         !field.state.value && version.imageUrl
                           ? "h-40 cursor-pointer"
                           : "cursor-default",
