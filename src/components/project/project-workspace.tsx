@@ -26,13 +26,19 @@ const ProjectWorkspace = ({ projectId }: ProjectWorkspaceProps) => {
     return <Skeleton className="h-150 w-full rounded-xl" />;
   }
 
-  const defaultBefore = versions[Math.max(1, 0)];
-  const defaultAfter = versions[0];
+  const milestoneVersions = versions.filter(
+    (version) => version.type === "milestone",
+  );
+
+  const defaultBefore = milestoneVersions[Math.max(1, 0)];
+  const defaultAfter = milestoneVersions[0];
 
   const before =
-    versions.find((version) => version._id === beforeId) ?? defaultBefore;
+    milestoneVersions.find((version) => version._id === beforeId) ??
+    defaultBefore;
   const after =
-    versions.find((version) => version._id === afterId) ?? defaultAfter;
+    milestoneVersions.find((version) => version._id === afterId) ??
+    defaultAfter;
 
   const handleVersionSelection = (versionId: Id<"versions">) => {
     if (selectionTarget === "before") {

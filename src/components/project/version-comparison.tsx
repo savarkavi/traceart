@@ -9,6 +9,10 @@ type VersionWithImage = {
   imageUrl: string | null;
   _id: Id<"versions">;
   _creationTime: number;
+  milestoneId?: Id<"versions"> | undefined;
+  type: "milestone" | "revision";
+  title: string;
+  description: string;
   projectId: Id<"projects">;
   storageId: Id<"_storage">;
 };
@@ -26,10 +30,21 @@ const VersionComparison = ({
 }: VersionComparisonProps) => {
   const [sliderPosition, setSliderPosition] = useState(50);
 
-  const beforeVersionNumber =
-    versions.findIndex((version) => version._id === before._id) + 1;
-  const afterVersionNumber =
-    versions.findIndex((version) => version._id === after._id) + 1;
+  const milestoneVersions = versions.filter(
+    (version) => version.type === "milestone",
+  );
+
+  const getVersionLabel = (version: VersionWithImage) => {
+    const milestoneIndex = milestoneVersions.findIndex(
+      (candidate) => candidate._id === version._id,
+    );
+    const milestoneNumber = milestoneVersions.length - milestoneIndex;
+
+    return milestoneNumber;
+  };
+
+  const beforeVersionLabel = getVersionLabel(before);
+  const afterVersionLabel = getVersionLabel(after);
 
   return (
     <div className="bg-card border-border relative rounded-2xl border shadow-sm">
@@ -37,7 +52,7 @@ const VersionComparison = ({
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-sm font-semibold">Compare versions</h2>
-            <span className="text-muted-foreground text-xs">{`V${beforeVersionNumber} → V${afterVersionNumber}`}</span>
+            <span className="text-muted-foreground text-xs">{`V${beforeVersionLabel} → V${afterVersionLabel}`}</span>
           </div>
           <p className="text-muted-foreground mt-0.5 text-xs">
             Drag the divider to see what changed.
@@ -94,10 +109,10 @@ const VersionComparison = ({
         </div>
 
         <div className="pointer-events-none absolute top-4 left-4 z-30 rounded-full bg-black/70 px-3 py-1 text-xs font-medium text-white shadow-sm backdrop-blur-sm">
-          V{beforeVersionNumber}
+          V{beforeVersionLabel}
         </div>
         <div className="pointer-events-none absolute top-4 right-4 z-30 rounded-full bg-black/70 px-3 py-1 text-xs font-medium text-white shadow-sm backdrop-blur-sm">
-          V{afterVersionNumber}
+          V{afterVersionLabel}
         </div>
 
         <input

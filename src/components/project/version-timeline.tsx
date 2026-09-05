@@ -21,11 +21,11 @@ const VersionTimeline = () => {
   if (versions === undefined) {
     return <Skeleton className="mt-20 h-40 w-full rounded-xl" />;
   }
-  // console.log(versions);
 
   const milestoneVersions = versions.filter(
     (version) => version.type === "milestone",
   );
+
   const revisionCounts: number[] = [];
   let revisionsSinceLastMilestone = 0;
 
