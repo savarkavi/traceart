@@ -21,7 +21,9 @@ const ProjectHeaderTabs = ({ project }: ProjectHeaderTabsProps) => {
         ? "timeline"
         : pathname.startsWith(`${projectPath}/compare`)
           ? "compare"
-          : "overview";
+          : pathname.startsWith(`${projectPath}/publish`)
+            ? "publish"
+            : "overview";
 
   return (
     <div className="flex items-center justify-between border-b py-2">
@@ -50,6 +52,14 @@ const ProjectHeaderTabs = ({ project }: ProjectHeaderTabsProps) => {
             className="data-active:font-bold"
           >
             Compare
+          </TabsTrigger>
+          <TabsTrigger
+            nativeButton={false}
+            render={<Link href={`/projects/${projectId}/publish`} />}
+            value="publish"
+            className="data-active:font-bold"
+          >
+            Share & Publish
           </TabsTrigger>
         </TabsList>
       </Tabs>
