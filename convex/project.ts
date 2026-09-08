@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { nanoid } from "nanoid";
 
 export const createProject = mutation({
   args: {},
@@ -43,6 +44,7 @@ export const createProject = mutation({
       ownerTokenIdentifier: identity.tokenIdentifier,
       title,
       description: "",
+      isPublic: false,
     });
   },
 });
@@ -107,5 +109,65 @@ export const updateProject = mutation({
     });
 
     return ctx.db.get("projects", args.projectId);
+  },
+});
+
+export const publishProject = mutation({
+  args: { projectId: v.id("projects") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const project = await ctx.db.get("projects", args.projectId);
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    if (project.ownerTokenIdentifier !== identity.tokenIdentifier) {
+      throw new Error("Not authorized");
+    }
+
+    const suffix = nanoid(8);
+
+    const shareToken =
+      project.shareToken ??
+      `${project.title
+        .toLocaleLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")}-${suffix}`;
+
+    await ctx.db.patch("projects", args.projectId, {
+      shareToken,
+      isPublic: true,
+    });
+
+    return shareToken;
+  },
+});
+
+export const unpublishProject = mutation({
+  args: { projectId: v.id("projects") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const project = await ctx.db.get("projects", args.projectId);
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    if (project.ownerTokenIdentifier !== identity.tokenIdentifier) {
+      throw new Error("Not authorized");
+    }
+
+    await ctx.db.patch("projects", args.projectId, { isPublic: false });
   },
 });

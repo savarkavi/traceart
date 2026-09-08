@@ -6,7 +6,11 @@ export default defineSchema({
     ownerTokenIdentifier: v.string(),
     title: v.string(),
     description: v.string(),
-  }).index("by_ownerTokenIdentifier", ["ownerTokenIdentifier"]),
+    isPublic: v.boolean(),
+    shareToken: v.optional(v.string()),
+  })
+    .index("by_ownerTokenIdentifier", ["ownerTokenIdentifier"])
+    .index("by_shareToken", ["shareToken"]),
 
   versions: defineTable({
     projectId: v.id("projects"),
