@@ -3,9 +3,10 @@
 import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "convex/react";
 import { Flag, RotateCcw, Upload } from "lucide-react";
-import { ChangeEvent, useState } from "react";
-import { api } from "../../../convex/_generated/api";
-import type { Id } from "../../../convex/_generated/dataModel";
+import { useState } from "react";
+import type { ChangeEvent } from "react";
+import { api } from "@convex/_generated/api";
+import type { Id } from "@convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -25,14 +26,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { toast } from "../ui/toast";
+import { toast } from "@/components/ui/toast";
 import {
   ACCEPTED_IMAGE_TYPES,
   uploadVersionSchema,
 } from "@/lib/validations/form-create-version";
 import { cn } from "@/lib/utils";
 
-interface UploadVersionButton {
+interface UploadVersionDialogProps {
   children: React.ReactNode;
   projectId: Id<"projects">;
   classNames?: string;
@@ -40,11 +41,11 @@ interface UploadVersionButton {
 
 type VersionType = "milestone" | "revision";
 
-const UploadVersionButton = ({
+const UploadVersionDialog = ({
   children,
   projectId,
   classNames,
-}: UploadVersionButton) => {
+}: UploadVersionDialogProps) => {
   const [isUploading, setIsUploading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -327,4 +328,4 @@ const UploadVersionButton = ({
   );
 };
 
-export default UploadVersionButton;
+export default UploadVersionDialog;

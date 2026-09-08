@@ -1,5 +1,5 @@
-import { Id } from "../../../../../../convex/_generated/dataModel";
-import ProjectSettings from "@/components/project/settings/project-settings";
+import type { Id } from "@convex/_generated/dataModel";
+import ProjectSettings from "@/features/project/components/settings/project-settings";
 
 const ProjectSettingsPage = async ({
   params,

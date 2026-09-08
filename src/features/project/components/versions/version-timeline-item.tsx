@@ -1,7 +1,7 @@
 import Image from "next/image";
-import EditVersionButton from "./edit-version-button";
-import { VersionWithImage } from "./version-thumbnails";
-import { Id } from "../../../convex/_generated/dataModel";
+import EditVersionDialog from "./edit-version-dialog";
+import type { VersionWithImage } from "@/features/project/types";
+import type { Id } from "@convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 
 interface VersionTimelineItemProps {
@@ -82,7 +82,7 @@ const VersionTimelineItem = ({
                 year: "numeric",
               })}
             </time>
-            <EditVersionButton version={version} projectId={projectId} />
+            <EditVersionDialog version={version} projectId={projectId} />
           </div>
         </div>
 

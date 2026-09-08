@@ -3,7 +3,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Doc } from "../../../convex/_generated/dataModel";
+import type { Doc } from "@convex/_generated/dataModel";
 
 type ProjectHeaderTabsProps = {
   project: Doc<"projects">;

@@ -1,6 +1,6 @@
-import ProjectLayoutClient from "@/components/project/project-layout-client";
-import { ReactNode } from "react";
-import { Id } from "../../../../../convex/_generated/dataModel";
+import ProjectLayoutClient from "@/features/project/components/project-layout-client";
+import type { ReactNode } from "react";
+import type { Id } from "@convex/_generated/dataModel";
 
 interface ProjectLayoutProps {
   children: ReactNode;

@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import type { Doc } from "../../../convex/_generated/dataModel";
+import type { Doc } from "@convex/_generated/dataModel";
 
 import ProjectHeaderTabs from "./project-header-tabs";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Globe, GlobeOff, Loader, Pencil, Upload } from "lucide-react";
-import UploadVersionButton from "./upload-version-button";
+import UploadVersionDialog from "./versions/upload-version-dialog";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import { toast } from "../ui/toast";
+import { api } from "@convex/_generated/api";
+import { toast } from "@/components/ui/toast";
 import { useState } from "react";
 
 type ProjectHeaderProps = {
@@ -106,13 +106,13 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
                 ? "Unpublish"
                 : "Publish"}
           </Button>
-          <UploadVersionButton
+          <UploadVersionDialog
             projectId={projectId}
             classNames="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex py-2 shrink-0 items-center gap-2 rounded-lg px-3 text-sm shadow-sm transition-all active:translate-y-px cursor-pointer"
           >
             <Upload className="size-3.5" />
             Add Version
-          </UploadVersionButton>
+          </UploadVersionDialog>
         </div>
       </div>
       <ProjectHeaderTabs project={project} />

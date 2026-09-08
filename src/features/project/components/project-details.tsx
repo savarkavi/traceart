@@ -1,7 +1,7 @@
 import { Clipboard, Pencil } from "lucide-react";
-import type { Doc } from "../../../convex/_generated/dataModel";
+import type { Doc } from "@convex/_generated/dataModel";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 type ProjectDetailsProps = {
   project: Doc<"projects">;

@@ -1,4 +1,4 @@
-import VersionTimeline from "../../../../../components/project/version-timeline";
+import VersionTimeline from "@/features/project/components/versions/version-timeline";
 
 const TimelinePage = () => {
   return <VersionTimeline />;

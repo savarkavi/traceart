@@ -1,16 +1,16 @@
 "use client";
 
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import { Skeleton } from "../ui/skeleton";
-import { useProject } from "./project-layout-client";
+import { api } from "@convex/_generated/api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useProject } from "@/features/project/hooks/use-project";
 import VersionTimelineItem from "./version-timeline-item";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../ui/accordion";
+} from "@/components/ui/accordion";
 
 const VersionTimeline = () => {
   const project = useProject();

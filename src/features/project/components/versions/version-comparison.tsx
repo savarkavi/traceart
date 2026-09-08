@@ -2,20 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Id } from "../../../convex/_generated/dataModel";
 import { ArrowUpRight, MoreHorizontal, Sparkles } from "lucide-react";
-
-type VersionWithImage = {
-  imageUrl: string | null;
-  _id: Id<"versions">;
-  _creationTime: number;
-  milestoneId?: Id<"versions"> | undefined;
-  type: "milestone" | "revision";
-  title: string;
-  description: string;
-  projectId: Id<"projects">;
-  storageId: Id<"_storage">;
-};
+import type { VersionWithImage } from "@/features/project/types";
 
 interface VersionComparisonProps {
   versions: VersionWithImage[];

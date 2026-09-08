@@ -24,9 +24,9 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
-import { Doc } from "../../../../convex/_generated/dataModel";
+import type { Doc } from "@convex/_generated/dataModel";
 import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
+import { api } from "@convex/_generated/api";
 import { toast } from "@/components/ui/toast";
 import { useState } from "react";
 

@@ -4,7 +4,7 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation } from "convex/react";
 import { ImageIcon, Pencil } from "lucide-react";
 import { useState } from "react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@convex/_generated/api";
 import { editVersionSchema } from "@/lib/validations/form-create-version";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,15 +28,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { VersionWithImage } from "./version-thumbnails";
-import { Id } from "../../../convex/_generated/dataModel";
+import type { VersionWithImage } from "@/features/project/types";
+import type { Id } from "@convex/_generated/dataModel";
 
-interface EditVersionButtonProps {
+interface EditVersionDialogProps {
   version: VersionWithImage;
   projectId: Id<"projects">;
 }
 
-const EditVersionButton = ({ version, projectId }: EditVersionButtonProps) => {
+const EditVersionDialog = ({ version, projectId }: EditVersionDialogProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const updateVersion = useMutation(api.version.updateVersion);
@@ -284,4 +284,4 @@ const EditVersionButton = ({ version, projectId }: EditVersionButtonProps) => {
   );
 };
 
-export default EditVersionButton;
+export default EditVersionDialog;

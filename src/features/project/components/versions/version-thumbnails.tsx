@@ -1,14 +1,10 @@
 import Image from "next/image";
 
-import type { Doc, Id } from "../../../convex/_generated/dataModel";
-import { Button } from "../ui/button";
-import { SelectionTarget } from "./project-workspace";
-import EditVersionButton from "./edit-version-button";
+import type { Id } from "@convex/_generated/dataModel";
+import { Button } from "@/components/ui/button";
+import type { SelectionTarget, VersionWithImage } from "@/features/project/types";
+import EditVersionDialog from "./edit-version-dialog";
 import { cn } from "@/lib/utils";
-
-export type VersionWithImage = Doc<"versions"> & {
-  imageUrl: string | null;
-};
 
 type VersionTimelineProps = {
   projectId: Id<"projects">;
@@ -138,7 +134,7 @@ export default function VersionThumbnails({
                   className="absolute top-2 right-2"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <EditVersionButton version={version} projectId={projectId} />
+                  <EditVersionDialog version={version} projectId={projectId} />
                 </div>
               </article>
             );

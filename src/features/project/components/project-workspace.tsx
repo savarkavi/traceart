@@ -1,19 +1,18 @@
 "use client";
 
 import { useQuery } from "convex/react";
-import { Id } from "../../../convex/_generated/dataModel";
+import type { Id } from "@convex/_generated/dataModel";
 import ProjectEmptyUpload from "./project-empty-upload";
-import { api } from "../../../convex/_generated/api";
-import VersionComparison from "./version-comparison";
-import VersionThumbnails from "./version-thumbnails";
+import { api } from "@convex/_generated/api";
+import VersionComparison from "./versions/version-comparison";
+import VersionThumbnails from "./versions/version-thumbnails";
 import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { SelectionTarget } from "@/features/project/types";
 
 interface ProjectWorkspaceProps {
   projectId: Id<"projects">;
 }
-
-export type SelectionTarget = "before" | "after";
 
 const ProjectWorkspace = ({ projectId }: ProjectWorkspaceProps) => {
   const versions = useQuery(api.version.getAllVersions, { projectId });

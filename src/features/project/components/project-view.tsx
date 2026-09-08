@@ -1,7 +1,7 @@
 "use client";
 
 import ProjectDetails from "./project-details";
-import { useProject } from "./project-layout-client";
+import { useProject } from "@/features/project/hooks/use-project";
 import ProjectWorkspace from "./project-workspace";
 
 export default function ProjectView() {

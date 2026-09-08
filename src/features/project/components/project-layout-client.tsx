@@ -1,18 +1,17 @@
 "use client";
 
-import { createContext, ReactNode, useContext } from "react";
-import { Doc, Id } from "../../../convex/_generated/dataModel";
+import type { ReactNode } from "react";
+import type { Id } from "@convex/_generated/dataModel";
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@convex/_generated/api";
 import { Loader } from "lucide-react";
 import ProjectHeader from "./project-header";
+import { ProjectContext } from "@/features/project/hooks/use-project";
 
 interface ProjectLayoutClientProps {
   children: ReactNode;
   projectId: Id<"projects">;
 }
-
-const ProjectContext = createContext<Doc<"projects"> | null>(null);
 
 const ProjectLayoutClient = ({
   children,
@@ -49,15 +48,5 @@ const ProjectLayoutClient = ({
     </ProjectContext.Provider>
   );
 };
-
-export function useProject() {
-  const project = useContext(ProjectContext);
-
-  if (!project) {
-    throw new Error("useProject must be used inside ProjectLayoutClient");
-  }
-
-  return project;
-}
 
 export default ProjectLayoutClient;
